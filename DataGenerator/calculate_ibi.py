@@ -18,7 +18,6 @@ def calculateIBI(operation):
             dictToReturn[i] = df["ibi"].std()
         if operation == "RMSSD":
             ibiDifferences = df["ibi"].diff().fillna(0).pow(2).sum()
-            print(ibiDifferences)
             dictToReturn[i] = math.sqrt(ibiDifferences) / len(df)
     return dictToReturn
 
