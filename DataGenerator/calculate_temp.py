@@ -9,17 +9,17 @@ def calculateTemp(operation):
         df.rename(columns={" temp" : "temp"}, inplace=True)
         df['temp'] = pd.to_numeric(df['temp'], downcast="float")
         if operation == "min":
-            arr.append('{0:.2f}'.format(df["temp"].min()))
+            arr.append(float('{0:.2f}'.format(df["temp"].min())))
         if operation == "max":
-            arr.append('{0:.2f}'.format(df["temp"].max()))
+            arr.append(float('{0:.2f}'.format(df["temp"].max())))
         if operation == "Q1G":
             arr.append(float('{0:.2f}'.format(df["temp"].quantile(0.25))))
         if operation == "Q3G":
             arr.append(float('{0:.2f}'.format(df["temp"].quantile(0.75))))
         if operation == "std":
-            arr.append('{0:.2f}'.format(df["temp"].std()))
+            arr.append(float('{0:.2f}'.format(df["temp"].std())))
         if operation == "mean":
-            arr.append('{0:.2f}'.format(df["temp"].mean()))
+            arr.append(float('{0:.2f}'.format(df["temp"].mean())))
     dictToReturn["temp_" + operation] = arr
     return dictToReturn
 

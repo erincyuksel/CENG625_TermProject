@@ -9,9 +9,9 @@ def calculateBVP(operation):
         df.rename(columns={" bvp" : "bvp"}, inplace=True)
         df['bvp'] = pd.to_numeric(df['bvp'], downcast="float")
         if operation == "min":
-            arr.append('{0:.2f}'.format(df["bvp"].min()))
+            arr.append(float('{0:.2f}'.format(df["bvp"].min())))
         if operation == "max":
-            arr.append('{0:.2f}'.format(df["bvp"].max()))
+            arr.append(float('{0:.2f}'.format(df["bvp"].max())))
         if operation == "Q1G":
             arr.append(float('{0:.2f}'.format(df["bvp"].quantile(0.25))))
         if operation == "Q3G":
@@ -20,6 +20,8 @@ def calculateBVP(operation):
             arr.append(float('{0:.2f}'.format(df["bvp"].std())))
         if operation == "mean":
             arr.append(float('{0:.2f}'.format(df["bvp"].mean())))
+
+    dictToReturn["bvp_" + operation] = arr
     return dictToReturn
 
 if __name__ == '__main__':
