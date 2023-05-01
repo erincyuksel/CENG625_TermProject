@@ -1,6 +1,7 @@
 import pandas as pd
 def giveRollingSum(timeInterval, category):
     dictToReturn = {}
+    arr = []
     for i in range(16):
         index = str(i+1).zfill(2)
         df = pd.read_csv(f'../Participants/Participant_{i+1}/Food_Log_0{index}.csv')
@@ -8,7 +9,8 @@ def giveRollingSum(timeInterval, category):
         df.index = pd.DatetimeIndex(df["time_begin"])
         df = df.sort_index()
         result = df.rolling(timeInterval, on="time_begin")[category].sum()
-        dictToReturn[i] = result.sum()
+        arr.append(float('{0:.2f}'.format(result.sum())))
+    dictToReturn[category + timeInterval] = arr
     return dictToReturn
 
 if __name__ == '__main__':

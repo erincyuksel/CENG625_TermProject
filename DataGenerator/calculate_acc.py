@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 def calculateACC(operation):
     dictToReturn = {}
-    vec_mags = {}
+    arr = []
     for i in range(16):
         index = str(i+1).zfill(2)
         df = pd.read_csv(f'../Participants/Participant_{i+1}/ACC_0{index}.csv')
@@ -22,22 +22,22 @@ def calculateACC(operation):
         df['acc_z'] = df["acc_z"] ** 2
         #get vector magnitude of the three axes
         df["vec_mag"] = np.sqrt(df["acc_x"] + df["acc_y"] + df["acc_z"])
-        vec_mags["Participant_" + index] = df["vec_mag"].resample("5T", origin=df.index[0]).mean()
         if operation == "mean":
-            dictToReturn[i] = df["vec_mag"].mean()
+            arr.append(df["vec_mag"].mean())
         if operation == "std":
-            dictToReturn[i] = df["vec_mag"].std()
+            arr.append(df["vec_mag"].std())
         if operation == "min":
-            dictToReturn[i] = df["vec_mag"].min()
+            arr.append(df["vec_mag"].min())
         if operation == "max":
-            dictToReturn[i] = df["vec_mag"].max()
+            arr.append(df["vec_mag"].max())
         if operation == "Q1G":
-            dictToReturn[i] = '{0:.2f}'.format(df["vec_mag"].quantile(0.25))
+            arr.append('{0:.2f}'.format(df["vec_mag"].quantile(0.25)))
         if operation == "Q3G":
-            dictToReturn[i] = '{0:.2f}'.format(df["vec_mag"].quantile(0.75))
-    return (dictToReturn, vec_mags)
+            arr.append('{0:.2f}'.format(df["vec_mag"].quantile(0.75)))
+    dictToReturn["acc_" + operation] = arr
+    return dictToReturn
 
 if __name__ == '__main__':
     #small test
-    (dicts, mags) = calculateACC("mean")
+    dicts = calculateACC("mean")
     print(dicts)
