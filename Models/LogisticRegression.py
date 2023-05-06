@@ -6,22 +6,29 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import cross_val_predict
+from sklearn.pipeline import make_pipeline
+from sklearn.ensemble import BaggingClassifier
+
+
 
 df = pd.read_csv("../DataGenerator/data.csv")
 x = df.loc[:, df.columns != 'class']
 y = df["class"]
 
-scaler = StandardScaler()
-x = scaler.fit_transform(x)
+pipeline = make_pipeline(StandardScaler(),
+                        LogisticRegression(random_state=1))
 
-clf_LR = LogisticRegression(C=1.0, penalty='l2', tol=0.0001, solver="liblinear")
-clf_LR.fit(x,y)
+bgclassifier = BaggingClassifier(estimator=pipeline, n_estimators=100,
+                                 max_features=25,
+                                 max_samples=12,
+                                 random_state=1, n_jobs=5)
+bgclassifier.fit(x, y)
 
-y_pred = cross_val_predict(clf_LR, x, y, cv=5)
+y_pred = cross_val_predict(bgclassifier, x, y, cv=5)
 print("Precision Score: \t {0:.4f}".format(precision_score(y,y_pred,average='weighted')))
 print("Recall Score: \t\t {0:.4f}".format(recall_score(y,y_pred,average='weighted')))
 print("F1 Score: \t\t {0:.4f}".format(f1_score(y,y_pred,average='weighted')))
 print(confusion_matrix(y, y_pred))
-res = cross_val_score(clf_LR, x, y, cv=5, scoring='accuracy')
+res = cross_val_score(bgclassifier, x, y, cv=5, scoring='accuracy')
 print("Average Accuracy: \t {0:.4f}".format(np.mean(res)))
 print("Accuracy SD: \t\t {0:.4f}".format(np.std(res)))
