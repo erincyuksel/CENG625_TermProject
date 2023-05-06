@@ -27,8 +27,8 @@ if __name__ == '__main__':
     # bvp_std = pd.DataFrame(bvp.calculateBVP("std"))
     # bvp_Q1G = pd.DataFrame(bvp.calculateBVP("Q1G"))
     # bvp_Q3G = pd.DataFrame(bvp.calculateBVP("Q3G"))
-    # df2 = pd.concat([df, bvp_min, bvp_max, bvp_mean, bvp_std, bvp_Q1G, bvp_Q3G], axis=1)
-    # df2.to_csv("./data.csv")
+    # df2 = pd.concat([bvp_min, bvp_max, bvp_mean, bvp_std, bvp_Q1G, bvp_Q3G], axis=1)
+    # df2.to_csv("./bvp.csv")
 
 
     # Start building the initial CSV file for our machine learning process

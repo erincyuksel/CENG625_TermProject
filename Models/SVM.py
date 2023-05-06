@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.model_selection import cross_val_score
@@ -17,7 +17,7 @@ x = df.loc[:, df.columns != 'class']
 y = df["class"]
 
 pipeline = make_pipeline(StandardScaler(),
-                        LogisticRegression(random_state=1))
+                        SVC(kernel='linear', C=1E6))
 
 bgclassifier = BaggingClassifier(estimator=pipeline, n_estimators=500,
                                  max_features=25,
