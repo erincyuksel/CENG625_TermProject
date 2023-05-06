@@ -1,7 +1,8 @@
+from sklearn.model_selection import GridSearchCV
+from sklearn import tree
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import precision_score, recall_score, f1_score
 from sklearn.model_selection import cross_val_score
@@ -16,8 +17,23 @@ df = pd.read_csv("../DataGenerator/data.csv")
 x = df.loc[:, df.columns != 'class']
 y = df["class"]
 
+
+
+#Below code gives best parameters for our decision tree
+
+# params = {'max_leaf_nodes': list(range(2, 50)),
+#          'min_samples_split': [2, 3, 4],
+#          'min_samples_leaf': list(range(5, 20)),
+#           'criterion': ["gini", "entropy"],
+#           'max_depth': [2, 4, 6, 8, 10, 12]}
+#
+# grid_search_cv = GridSearchCV(tree.DecisionTreeClassifier(random_state=42), params, n_jobs=-1, verbose=1)
+# grid_search_cv.fit(x,y)
+# print(grid_search_cv.best_estimator_)
+
 pipeline = make_pipeline(StandardScaler(),
-                        SVC(kernel='linear', C=1E6))
+                         tree.DecisionTreeClassifier(max_depth=2, max_leaf_nodes=2, min_samples_leaf=5,
+                                                     random_state=42))
 
 bgclassifier = BaggingClassifier(estimator=pipeline, n_estimators=500,
                                  max_features=25,
@@ -35,6 +51,6 @@ print("Average Accuracy: \t {0:.4f}".format(np.mean(res)))
 print("Accuracy SD: \t\t {0:.4f}".format(np.std(res)))
 fpr, tpr, thresholds = metrics.roc_curve(y, y_pred)
 roc_auc = metrics.auc(fpr, tpr)
-display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name='SVM Without Feature Extraction')
+display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name='Decision Tree Without Feature Extraction')
 display.plot()
 plt.show()
