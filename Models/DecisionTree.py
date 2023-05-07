@@ -13,6 +13,7 @@ from sklearn import metrics
 import matplotlib.pyplot as plt
 
 
+
 df = pd.read_csv("../DataGenerator/data.csv")
 x = df.loc[:, df.columns != 'class']
 y = df["class"]
@@ -51,9 +52,16 @@ print("Average Accuracy: \t {0:.4f}".format(np.mean(res)))
 print("Accuracy SD: \t\t {0:.4f}".format(np.std(res)))
 fpr, tpr, thresholds = metrics.roc_curve(y, y_pred)
 roc_auc = metrics.auc(fpr, tpr)
-display = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name='Decision Tree Without Feature Extraction')
-display.plot()
+display_roc = metrics.RocCurveDisplay(fpr=fpr, tpr=tpr, roc_auc=roc_auc,estimator_name='Decision Tree Without Feature Extraction')
+display_roc.plot()
 plt.show()
-display = metrics.ConfusionMatrixDisplay(confusion_matrix(y, y_pred, labels=[0,1]), display_labels=["Normal", "Pre-Diabetic"])
-display.plot()
+display_matrix = metrics.ConfusionMatrixDisplay(confusion_matrix(y, y_pred, labels=[0,1]), display_labels=["Normal", "Pre-Diabetic"])
+display_matrix.plot()
 plt.show()
+
+
+
+
+
+
+
