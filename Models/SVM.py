@@ -16,10 +16,10 @@ x = df.loc[:, df.columns != 'class']
 y = df["class"]
 
 pipeline = make_pipeline(StandardScaler(),
-                        SVC(kernel='linear', C=1E6))
+                        SVC(kernel='rbf', C=1E6))
 
 bgclassifier = BaggingClassifier(estimator=pipeline, n_estimators=200,
-                                 max_features=25,
+                                 max_features=30,
                                  max_samples=12,
                                  random_state=1, n_jobs=5)
 bgclassifier.fit(x, y)

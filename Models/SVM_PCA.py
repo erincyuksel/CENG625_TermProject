@@ -23,7 +23,7 @@ pca = PCA(n_components=3)
 pca.fit(X_scaled)
 X_pca = pca.transform(X_scaled)
 
-bgclassifier = BaggingClassifier(estimator=SVC(kernel='linear', C=1E6), n_estimators=200,
+bgclassifier = BaggingClassifier(estimator=SVC(kernel='rbf', C=1E6), n_estimators=200,
                                  max_features=3,
                                  max_samples=12,
                                  random_state=1, n_jobs=5)

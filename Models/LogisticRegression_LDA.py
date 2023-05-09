@@ -25,7 +25,7 @@ lda = LinearDiscriminantAnalysis(n_components=1, solver='svd')
 X_lda = lda.fit_transform(X_scaled, y)
 
 
-bgclassifier = BaggingClassifier(estimator=LogisticRegression(random_state=1), n_estimators=200,
+bgclassifier = BaggingClassifier(estimator=LogisticRegression(random_state=1), n_estimators=500,
                                  max_features=1,
                                  max_samples=12,
                                  random_state=1, n_jobs=5)

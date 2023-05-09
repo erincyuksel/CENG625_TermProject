@@ -22,7 +22,7 @@ pipeline = make_pipeline(StandardScaler(),
                         KNeighborsClassifier(n_neighbors=2, p=2, algorithm="brute"))
 
 bgclassifier = BaggingClassifier(estimator=pipeline, n_estimators=500,
-                                 max_features=25,
+                                 max_features=30,
                                  max_samples=12,
                                  random_state=1, n_jobs=5)
 bgclassifier.fit(x, y)
